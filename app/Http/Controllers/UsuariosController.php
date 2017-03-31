@@ -30,9 +30,12 @@ class UsuariosController extends Controller
     {
         session()->flush();
 
-        $data = Input::all();
-        $usuario_id = $data['select_usuario_id'];
-        session(['usuario_id' => $usuario_id]);
+        if ( ! session()->has('usuario_id')){
+
+            $data = Input::all();
+            $usuario_id = $data['select_usuario_id'];
+            session(['usuario_id' => $usuario_id]);
+        }
 
         return view('home');
 

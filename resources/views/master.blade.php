@@ -120,8 +120,8 @@
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-6">
                     <ul class="nav navbar-nav">
                         <?php $usuario_id = session()->get('usuarios_id'); ;?>
-                        <li><a href="ver-valoraciones">Mis Valoraci&oacute;n</a></li>
-                        <li><a href="ver-peliculas">Pel&iacute;culas</a></li>
+                        <li><a href="valoraciones-ver">Mis Valoraci&oacute;n</a></li>
+                        <li><a href="peliculas-ver">Pel&iacute;culas</a></li>
                         <li><a href="log-out">Cerrar Sesi&oacute;n</a></li>
                     </ul>
                 </div>
@@ -136,6 +136,12 @@
 </div>
 
 <footer>
+    <script data-require="jquery@*" data-semver="2.0.3" src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+    <script data-require="bootstrap@*" data-semver="3.1.1" src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <link data-require="bootstrap-css@3.1.1" data-semver="3.1.1" rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js"></script>
+
     <script src="{{asset('js/jquery-3.2.0.min.js')}}"></script>
     <script src="{{ asset('js/funciones.js') }}"></script>
     <script type="text/javscript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
