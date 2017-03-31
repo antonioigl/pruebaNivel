@@ -172,11 +172,11 @@ return [
         /*
          * Application Service Providers...
          */
-        App\Providers\AppServiceProvider::class,
-        App\Providers\AuthServiceProvider::class,
-        // App\Providers\BroadcastServiceProvider::class,
-        App\Providers\EventServiceProvider::class,
-        App\Providers\RouteServiceProvider::class,
+        pruebaNivel\Providers\AppServiceProvider::class,
+        pruebaNivel\Providers\AuthServiceProvider::class,
+        // pruebaNivel\Providers\BroadcastServiceProvider::class,
+        pruebaNivel\Providers\EventServiceProvider::class,
+        pruebaNivel\Providers\RouteServiceProvider::class,
 
     ],
 
@@ -228,6 +228,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
+        'HTML' => Collective\Html\HtmlFacade::class,
 
     ],
 
