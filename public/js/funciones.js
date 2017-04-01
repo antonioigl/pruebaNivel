@@ -1,48 +1,21 @@
 
-// function cambioCliente() {
-//     alert('hola');
-// }
-
-// $('#select_usuario_id').change(function () {
-//     if ($('#select_usuario_id').val() != 0)
-//         $('#result-btn').empty().html('<button type="summit" class="btn btn-success btn-md btn-block">Aceptar</button>');
-//
-//     else
-//         $('#result-btn').empty();
-//
-// });
-//
-// $('#select_usuario_id').change(function () {
-//     $("#btn_select_usuario").attr('href', 'home/' + $('#select_usuario_id').val());
-//     // $("#btn_select_usuario").attr('href', 'kk');
-//
-//
-// });
-//
-
-// Bind click to OK button within popup
-$('#confirm-delete').on('click', '.btn-ok', function(e) {
-
-    var $modalDiv = $(e.delegateTarget);
-    var id = $(this).data('recordId');
-document.getAtt
-
-    $modalDiv.addClass('loading');
-    $.post('/api/record/' + id).then(function() {
-        $modalDiv.modal('hide').removeClass('loading');
-    });
-});
-
-// Bind to modal opening to set necessary data properties to be used to make request
-// $('#confirm-delete').on('show.bs.modal', function(e) {
-//     var data = $(e.relatedTarget).data();
-//     $('.title', this).text(data.recordTitle);
-//     $('.btn-ok', this).data('recordId', data.recordId);
-// });
 
 $(document).on("click", ".abre-modal-borrar", function () {
-    var myBookId = $(this).data('id');
-    $(".modal-body").empty().html('<p>'+myBookId+'</p>');
+    var titulo_pelicula = ($(this).data('id')).split('|')[0];
+    var valoracion_id = ($(this).data('id')).split('|')[1];
+
+    $(".titulo-pelicula").empty().html('<p>'+titulo_pelicula+'</p>');
+
+    var url = document.getElementById('confirmar-borrar').href;
+
+    $('#confirmar-borrar').attr('href', url+valoracion_id);
+
+});
+
+$('#confirm-delete').on('show.bs.modal', function(e) {
+    $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
+
+    $('.debug-url').html('Delete URL: <strong>' + $(this).find('.btn-ok').attr('href') + '</strong>');
 });
 
 

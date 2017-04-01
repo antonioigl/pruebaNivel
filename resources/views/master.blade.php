@@ -114,7 +114,7 @@
 <body>
 <header>
 
-@if(session()->has('usuario_id'))
+@if(session()->has('usuario_id') ||  (strpos($_SERVER['REQUEST_URI'], 'create') === false) )
         <nav class="navbar navbar-default">
             <div class="container-fluid">
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-6">
@@ -130,6 +130,10 @@
     @endif
     @yield('header')
 </header>
+
+
+@include('modales.confirmacion')
+
 
 <div class="container">
     @yield('body')

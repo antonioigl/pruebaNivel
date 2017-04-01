@@ -15,17 +15,16 @@ use \pruebaNivel\Valoracion as Valoracion;
 
     <div class="row" >
         <div class="col-md-12" >
-            @if( count($valoraciones))
-                @if(session()->has('mensaje'))
-                    <?php  $mensaje = session('mensaje'); $flag = session('flag');?>
-                    <div class="row margen-top-10">
-                        <div class="col-md-12" style="text-align: center">
-                            <?php $estado =  $flag ? 'success' : 'danger';?>
-                            <div class="alert alert-{{$estado}}" role="alert">  {{$mensaje}} </div>
-                        </div>
+            @if(session()->has('mensaje'))
+                <?php  $mensaje = session('mensaje'); $flag = session('flag');?>
+                <div class="row margen-top-10">
+                    <div class="col-md-12" style="text-align: center">
+                        <?php $estado =  $flag ? 'success' : 'danger';?>
+                        <div class="alert alert-{{$estado}}" role="alert">  {{$mensaje}} </div>
                     </div>
-                @endif
-
+                </div>
+            @endif
+            @if( count($valoraciones))
                 <h3 style="text-align: center">Tus valoraciones</h3>
                 <table class="table table-hover" >
                     <thead >
@@ -46,14 +45,14 @@ use \pruebaNivel\Valoracion as Valoracion;
                             <td>{{$pelicula->titulo }}</td>
                             <td>{{$valoracion->puntuacion}}</td>
                             <td>
-                                <a href="{!!'valoracion-show/'. $valoracion->pelicula_id!!}" class="glyphicon glyphicon-zoom-in" style="text-decoration:none">
+                                <a href="{!!'valoracion-show/'. $valoracion->pelicula_id!!}" class="glyphicon glyphicon-zoom-in" style="text-decoration:none; font-size: 25px;" title="Ver">
 
                                 </a>
-                                <a href="{!! 'valoracion-edit/'.$valoracion->pelicula_id !!}" class="glyphicon glyphicon-pencil" style="text-decoration:none">
+                                <a href="{!! 'valoracion-edit/'.$valoracion->pelicula_id !!}" class="glyphicon glyphicon-pencil" style="text-decoration:none; font-size: 25px;" title="Editar">
 
                                 </a>
                                 {{--<a href="#" data-href="/delete.php?id=54" data-toggle="modal" data-target="#confirm-delete" class="glyphicon glyphicon-remove" style="text-decoration:none">--}}
-                                    <a class="glyphicon glyphicon-remove abre-modal-borrar" data-id="hola" style="text-decoration:none" href="#" data-href="{!! 'valoracion-remove/'.$valoracion->pelicula_id !!}" data-toggle="modal" data-target="#confirm-delete"></a>
+                                    <a class="glyphicon glyphicon-trash abre-modal-borrar" data-id="{{$pelicula->titulo}}|{{$valoracion->pelicula_id}}" style="text-decoration:none; font-size: 25px;" href="#" data-href="valoracion-remove" data-toggle="modal" data-target="#confirm-delete" title="Eliminar"></a>
                                 {{--</a>--}}
                             </td>
                         </tr>
@@ -67,41 +66,6 @@ use \pruebaNivel\Valoracion as Valoracion;
     </div>
 
 </div>
-
-
-
-<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="myModalLabel">Confirm Delete</h4>
-            </div>
-
-            <div class="modal-body">
-                <p>You are about to delete one track, this procedure is irreversible.</p>
-                <p>Do you want to proceed?</p>
-                <p class="debug-url"></p>
-            </div>
-
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <a class="btn btn-danger btn-ok">Delete</a>
-            </div>
-        </div>
-    </div>
-</div>
-
-<a href="#" data-href="/delete.php?id=23" data-toggle="modal" data-target="#confirm-delete">Delete record #23</a><br>
-
-<button class="btn btn-default" data-href="/delete.php?id=54" data-toggle="modal" data-target="#confirm-delete">
-    Delete record #54
-</button>
-
-
-
-
 
 
 

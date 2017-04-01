@@ -58,7 +58,9 @@ else{
                         </tr>
                     </tbody>
                 </table>
-            {{Form::button('Enviar', ['class' => 'btn btn-lg btn-success', 'id' => 'enviar_valoracion_id' ])}}
+            @if(strpos($_SERVER['REQUEST_URI'], 'show') === false)
+                {{Form::button('Enviar', ['class' => 'btn btn-lg btn-success', 'id' => 'enviar_valoracion_id' ])}}
+            @endif
             <a href="{!!  url()->previous() !!}" class="btn btn-lg btn-default">Atr&aacute;s</a>
             {{Form::close()}}
         </div>

@@ -37,6 +37,47 @@ class ValoracionesController extends Controller
     }
 
     public function remove($id){
+
+        DB::beginTransaction();
+
+        try{
+            $usuario_id = session('usuario_id');
+
+            $valoracion = ValoracionesController::getValoracionPeliculaUsuario($id,$usuario_id);
+
+            $pelicula = Pelicula::find($id);
+
+            //comprobamos que haya mas de una valoracion para evitar dividir entre 0
+            if ($pelicula['num_valoraciones'] == 1){
+                $pelicula['valoracion_media'] = 0.00;
+                $pelicula['num_valoraciones'] = 0;
+            }
+            else{
+
+                $valoracion_media_act = (($pelicula['valoracion_media'] * $pelicula['num_valoraciones'] ) - $valoracion->puntuacion) / ($pelicula['num_valoraciones'] -1);
+
+                $pelicula['valoracion_media'] = $valoracion_media_act;
+                $pelicula['num_valoraciones'] = $pelicula['num_valoraciones']-1;
+            }
+
+            $pelicula->save();
+
+            Valoracion::find($valoracion->id)->delete();
+
+            DB::commit();
+
+            $mensaje = 'Valoración actualizada con éxito';
+            $flag = true;
+        }
+        catch (Exception $ex){
+            DB::rollBack();
+            $mensaje = 'Error al guardar datos';
+            $flag = false;
+        }
+
+        return redirect('valoraciones-ver')->with(compact('mensaje','flag' ));
+
+
     }
 
     public function loadValoraciones(){
@@ -48,7 +89,7 @@ class ValoracionesController extends Controller
         $valoraciones = Valoracion::where('usuario_id', $usuario_id)->get();
         //return view('valoraciones/showall', compact('valoraciones'));
 
-        return view('valoraciones/showall')->with(compact('valoraciones'));
+        return view('valoraciones/showall', compact('valoraciones'));
     }
 
     public static function getValoracionPeliculaUsuario($pelicula_id, $usuario_id){
