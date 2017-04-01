@@ -18,21 +18,19 @@ use \pruebaNivel\Valoracion as Valoracion;
     <div class="row" >
         <div class="col-md-12" >
             @if( count($peliculas) > 0)
-
-
                 <h3 style="text-align: center">Pel&iacute;culas</h3>
                 <table class="table table-hover" >
                     <thead >
                     <tr >
-                        <th style="text-align: center"> T&iacute;tulo Pel&iacute;cula</th>
-                        <th style="text-align: center"> Categor&iacute;a</th>
-                        <th style="text-align: center"> Puntuaci&oacute;n Media</th>
-                        <th style="text-align: center"> Num. Valoraciones</th>
-                        <th style="text-align: center">Tu puntuaci&oacute;n</th>
-                        <th style="text-align: center">Opciones</th>
+                        <th class="text-center"> T&iacute;tulo Pel&iacute;cula</th>
+                        <th class="text-center"> Categor&iacute;a</th>
+                        <th class="text-center"> Puntuaci&oacute;n Media</th>
+                        <th class="text-center"> Num. Valoraciones</th>
+                        <th class="text-center">Tu puntuaci&oacute;n</th>
+                        <th class="text-center">Opciones</th>
                     </tr>
                     </thead>
-                    <tbody style="text-align: center">
+                    <tbody class="text-center">
                     @foreach($peliculas as $pelicula)
                         <tr>
                             <td>{{$pelicula->titulo }}</td>
@@ -57,8 +55,11 @@ use \pruebaNivel\Valoracion as Valoracion;
                     @endforeach
                     </tbody>
                 </table>
+                <div class="col-md-offset-6">
+                    <span class="pagination">  {{$peliculas->links()}}  </span>
+                </div>
             @else
-                <h3 style="text-align: center"> Todav&iacute;a no has hecho ninguna valoraci&oacute;n</h3>
+                <h3 class="text-center"> Todav&iacute;a no has hecho ninguna valoraci&oacute;n</h3>
             @endif
         </div>
     </div>

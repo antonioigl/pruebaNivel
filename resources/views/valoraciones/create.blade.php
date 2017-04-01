@@ -31,7 +31,7 @@ else{
 
                 <div id="resultado_valoracion_id">  </div>
 
-                <h3 style="text-align: center">Valoraci&oacute;n</h3>
+                <h3 class="text-center">Valoraci&oacute;n</h3>
 
             {{Form::open( $datos_form )}}
 {{--            {{Form::model( $valoracion, $datos_form ,['role'=>'form'] )}}--}}
@@ -39,12 +39,12 @@ else{
             <table class="table table-hover" >
                     <thead >
                     <tr >
-                        <th style="text-align: center"> T&iacute;tulo Pel&iacute;cula</th>
-                        <th style="text-align: center">Categor&iacute;a</th>
-                        <th style="text-align: center">Tu puntuaci&oacute;n</th>
+                        <th class="text-center"> T&iacute;tulo Pel&iacute;cula</th>
+                        <th class="text-center">Categor&iacute;a</th>
+                        <th class="text-center">Tu puntuaci&oacute;n</th>
                     </tr>
                     </thead>
-                    <tbody style="text-align: center">
+                    <tbody class="text-center">
                         <tr>
                             <td>{{$pelicula->titulo }}</td>
                             <td>{{$pelicula->categoria}}</td>
@@ -52,7 +52,7 @@ else{
                                 @if(strpos($_SERVER['REQUEST_URI'], 'show'))
                                     {{$valoracion->puntuacion}}
                                 @else
-                                    {{Form::select('puntuacion', [-1 => 'Selecciona una puntuación'] + [0,1,2,3,4,5,6,7,8,9,10],  $puntuacion, ['class' => 'form-control', 'id'=>'puntuacion_id' ,'style' => 'width: 40%; display: inline-block;'])}}
+                                    {{Form::select('puntuacion', [-1 => 'Selecciona una puntuación'] + [0,1,2,3,4,5,6,7,8,9,10],  $puntuacion, ['class' => 'form-control width-40x100 display-inline-block', 'id'=>'puntuacion_id'])}}
                                 @endif
                             </td>
                         </tr>

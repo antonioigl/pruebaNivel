@@ -26,10 +26,8 @@ class UsuariosController extends Controller
     }
 
 
-    public function loginUsuario()
+    public function login()
     {
-        session()->flush();
-
         if ( ! session()->has('usuario_id')){
 
             $data = Input::all();
@@ -40,6 +38,10 @@ class UsuariosController extends Controller
         return view('home');
 
     }
-
+    public function logout()
+    {
+        session()->flush();
+        return redirect('/');
+    }
 
 }

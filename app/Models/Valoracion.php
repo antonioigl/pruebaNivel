@@ -4,6 +4,7 @@ namespace pruebaNivel;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Model;
 
 class Valoracion extends Model
 {

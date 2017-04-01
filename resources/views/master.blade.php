@@ -107,14 +107,14 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-{{--    {{HTML::style('css/style.css')}}--}}
+    {{HTML::style('css/style.css')}}
     @yield('head')
 </head>
 
 <body>
 <header>
 
-@if(session()->has('usuario_id') ||  (strpos($_SERVER['REQUEST_URI'], 'create') === false) )
+@if( session()->has('usuario_id') &&   ((strpos($_SERVER['REQUEST_URI'], 'create') === false) &&  (strpos($_SERVER['REQUEST_URI'], 'edit') === false) &&  (strpos($_SERVER['REQUEST_URI'], 'show') === false ) ))
         <nav class="navbar navbar-default">
             <div class="container-fluid">
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-6">

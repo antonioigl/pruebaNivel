@@ -1,0 +1,3 @@
+[{"fecha":"01-04-2017 12:04:49","tipo":"EXITO","info":"GUARDAR","pelicula_id":"3","usuario_id":"1"}]
+{"fecha":"01-04-2017 12:04:07","tipo":"EXITO","info":"ACTUALIZAR","pelicula_id":"31","usuario_id":"1"}
+{"fecha":"01-04-2017 14:04:47","tipo":"EXITO","info":"ACTUALIZAR","pelicula_id":"31","usuario_id":"1"}

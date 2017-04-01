@@ -17,15 +17,13 @@ $usuario_id = session('usuario_id');
 
 $usuario = UsuariosController::getUsuario(session('usuario_id'));
 
-
-
 ;?>
 
 <div class="row container-fluid">
 
     <div class="row" >
         <div class="col-md-12" >
-            <h3 style="text-align: center"> Bienvenid@ {{$usuario->nombre}}</h3>
+            <h3 class="text-center"> Bienvenid@ {{$usuario->nombre}}</h3>
         </div>
     </div>
 

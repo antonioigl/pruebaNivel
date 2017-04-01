@@ -3,6 +3,7 @@
 namespace pruebaNivel\Http\Controllers;
 
 //use Illuminate\Contracts\Session\Session;
+//use Faker\Provider\File;
 use Illuminate\Contracts\View\View;
 use Illuminate\Routing\Controller;
 //use pruebaNivel\Http\Controllers\Controller;
@@ -12,6 +13,7 @@ use League\Flysystem\Exception;
 use pruebaNivel\Pelicula;
 use pruebaNivel\Valoracion;
 use DB;
+use File;
 
 
 class ValoracionesController extends Controller
@@ -66,7 +68,10 @@ class ValoracionesController extends Controller
 
             DB::commit();
 
-            $mensaje = 'Valoración actualizada con éxito';
+
+
+
+            $mensaje = 'Valoración eliminada con éxito';
             $flag = true;
         }
         catch (Exception $ex){
@@ -84,10 +89,7 @@ class ValoracionesController extends Controller
 
         $usuario_id = session('usuario_id');
 
-        //$valoraciones = ValoracionesController::getValoracionesUsuario($usuario_id);
-
-        $valoraciones = Valoracion::where('usuario_id', $usuario_id)->get();
-        //return view('valoraciones/showall', compact('valoraciones'));
+        $valoraciones = Valoracion::where('usuario_id', $usuario_id)->paginate(5);
 
         return view('valoraciones/showall', compact('valoraciones'));
     }
@@ -114,7 +116,7 @@ class ValoracionesController extends Controller
 
             DB::beginTransaction();
 
-            try{
+            try {
                 $usuario_id = session('usuario_id');
 
                 $pelicula = PeliculasController::getPelicula($id);
@@ -133,25 +135,31 @@ class ValoracionesController extends Controller
 
                 //actualizar datos tabla peliculas
                 $pelicula = Pelicula::find($id);
-                $valoracion_media_act = ( ($valoracion_media * $num_valoraciones)  +  floatval($data['puntuacion']) ) / ($num_valoraciones +1 );
+                $valoracion_media_act = (($valoracion_media * $num_valoraciones) + floatval($data['puntuacion'])) / ($num_valoraciones + 1);
 
-                $pelicula['valoracion_media'] =  $valoracion_media_act;
-                $pelicula['num_valoraciones'] =  $pelicula['num_valoraciones'] + 1;
+                $pelicula['valoracion_media'] = $valoracion_media_act;
+                $pelicula['num_valoraciones'] = $pelicula['num_valoraciones'] + 1;
 
                 $pelicula->save();
 
+                $mensaje = 'Valoración guardada correctamente';
+                $flag = true;
+                $tipo = 'EXITO';
+                $info = 'GUARDAR';
+
                 DB::commit();
 
-                $mensaje = 'Valoración guardada con éxito';
-                $flag = true;
-            }
-            catch (Exception $ex){
+
+            } catch (Exception $ex) {
                 DB::rollBack();
-                $mensaje = 'Error al guardar datos';
+                $mensaje = 'Se ha producido un error al guardar los datos';
                 $flag = false;
+                $tipo = 'ERROR';
+                $info = 'GUARDAR';
             }
 
 
+            $this->anyadeLog(['fecha' => date('d-m-Y H:m:s'), 'tipo' => $tipo, 'info' => $info, 'pelicula_id' => $id, 'usuario_id' => $usuario_id]);
         }
 
         return redirect('valoraciones-ver')->with(compact('mensaje','flag' ));
@@ -162,45 +170,92 @@ class ValoracionesController extends Controller
 
         $data = Input::all();
 
-        DB::beginTransaction();
+        // volvemos a validar en el controlador
+        $validacion = new Valoracion();
+        $errores = $validacion->validate($data);
 
-        try {
+        if(! $errores->fails() ) {
 
-            $valoracion = $this::getValoracion($id);
+            DB::beginTransaction();
 
-            $puntuacion = $valoracion->puntuacion;
+            try {
 
-            $pelicula_id = $valoracion->pelicula_id;
+                $usuario_id = session('usuario_id');
 
-            $pelicula = PeliculasController::getPelicula($pelicula_id);
-            $valoracion_media = $pelicula->valoracion_media;
-            $num_valoraciones = $pelicula->num_valoraciones;
+                $valoracion = $this::getValoracion($id);
+
+                $puntuacion = $valoracion->puntuacion;
+
+                $pelicula_id = $valoracion->pelicula_id;
+
+                $pelicula = PeliculasController::getPelicula($pelicula_id);
+                $valoracion_media = $pelicula->valoracion_media;
+                $num_valoraciones = $pelicula->num_valoraciones;
 
 
-            $valoracion_media_act = ((($valoracion_media * $num_valoraciones) - $puntuacion) + floatval($data['puntuacion'])) / $num_valoraciones;
+                $valoracion_media_act = ((($valoracion_media * $num_valoraciones) - $puntuacion) + floatval($data['puntuacion'])) / $num_valoraciones;
 
-            $pelicula_update = Pelicula::find($pelicula_id);
-            $pelicula_update['valoracion_media'] = $valoracion_media_act;
-            $pelicula_update->save();
+                $pelicula_update = Pelicula::find($pelicula_id);
+                $pelicula_update['valoracion_media'] = $valoracion_media_act;
+                $pelicula_update->save();
 
 
-            $valoracion_update = Valoracion::find($id);
-            $valoracion_update['puntuacion'] = $data['puntuacion'];
-            $valoracion_update->save();
+                $valoracion_update = Valoracion::find($id);
+                $valoracion_update['puntuacion'] = $data['puntuacion'];
+                $valoracion_update->save();
 
-            DB::commit();
+                DB::commit();
 
-            $mensaje = 'Valoración actualizada con éxito';
-            $flag = true;
+                $mensaje = 'Valoración actualizada con éxito';
+                $flag = true;
+                $tipo = 'EXITO';
+                $info = 'ACTUALIZAR';
+
+            } catch (Exception $ex) {
+                DB::rollBack();
+                $mensaje = 'Se ha producido un error al actualizar los datos';
+                $flag = false;
+                $tipo = 'ERROR';
+                $info = 'ACTUALIZAR';
+            }
+
+            $this->anyadeLog(['fecha' => date('d-m-Y H:m:s'), 'tipo' => $tipo, 'info' => $info, 'pelicula_id' => $id, 'usuario_id' => $usuario_id]);
         }
-        catch (Exception $ex){
-            DB::rollBack();
-            $mensaje = 'Error al guardar datos';
-            $flag = false;
-        }
+
 
         return redirect('valoraciones-ver')->with(compact('mensaje','flag' ));
 
     }
+
+    public function anyadeLog ($data){
+
+        $usuario_id = session('usuario_id');
+
+        $archivo = 'log_valoraciones/vlrc_log_'.$usuario_id.'.txt';
+
+        if (!File::exists('log_valoraciones'))
+            File::makeDirectory('log_valoraciones', 777, true);
+
+        //$contenido = File::exists($archivo) ? json_encode(File::get($archivo), true) : [];
+
+
+       if (File::exists($archivo)){
+           $contenido = File::get($archivo);
+           File::put($archivo, $contenido."\r\n" .json_encode($data));
+
+       }
+
+       else{
+           //$contenido = [];
+           //
+           //$contenido[] = $data;
+
+           File::put($archivo, json_encode($data));
+
+       }
+
+    }
+
+
 
 }

@@ -18,23 +18,23 @@ use \pruebaNivel\Valoracion as Valoracion;
             @if(session()->has('mensaje'))
                 <?php  $mensaje = session('mensaje'); $flag = session('flag');?>
                 <div class="row margen-top-10">
-                    <div class="col-md-12" style="text-align: center">
+                    <div class="col-md-12" class="text-center">
                         <?php $estado =  $flag ? 'success' : 'danger';?>
                         <div class="alert alert-{{$estado}}" role="alert">  {{$mensaje}} </div>
                     </div>
                 </div>
             @endif
             @if( count($valoraciones))
-                <h3 style="text-align: center">Tus valoraciones</h3>
+                <h3 class="text-center">Tus valoraciones</h3>
                 <table class="table table-hover" >
                     <thead >
                     <tr >
-                        <th style="text-align: center"> T&iacute;tulo Pel&iacute;cula</th>
-                        <th style="text-align: center">Tu puntuaci&oacute;n</th>
-                        <th style="text-align: center">Opciones</th>
+                        <th class="text-center"> T&iacute;tulo Pel&iacute;cula</th>
+                        <th class="text-center">Tu puntuaci&oacute;n</th>
+                        <th class="text-center">Opciones</th>
                     </tr>
                     </thead>
-                    <tbody style="text-align: center">
+                    <tbody class="text-center">
                     @foreach($valoraciones as $valoracion)
                         <tr>
                             <?php
@@ -45,22 +45,24 @@ use \pruebaNivel\Valoracion as Valoracion;
                             <td>{{$pelicula->titulo }}</td>
                             <td>{{$valoracion->puntuacion}}</td>
                             <td>
-                                <a href="{!!'valoracion-show/'. $valoracion->pelicula_id!!}" class="glyphicon glyphicon-zoom-in" style="text-decoration:none; font-size: 25px;" title="Ver">
+                                <a href="{!!'valoracion-show/'. $valoracion->pelicula_id!!}" class="glyphicon glyphicon-zoom-in letra-25 text-deco-none" title="Ver">
 
                                 </a>
-                                <a href="{!! 'valoracion-edit/'.$valoracion->pelicula_id !!}" class="glyphicon glyphicon-pencil" style="text-decoration:none; font-size: 25px;" title="Editar">
+                                <a href="{!! 'valoracion-edit/'.$valoracion->pelicula_id !!}" class="glyphicon glyphicon-pencil letra-25 text-deco-none" title="Editar">
 
                                 </a>
-                                {{--<a href="#" data-href="/delete.php?id=54" data-toggle="modal" data-target="#confirm-delete" class="glyphicon glyphicon-remove" style="text-decoration:none">--}}
-                                    <a class="glyphicon glyphicon-trash abre-modal-borrar" data-id="{{$pelicula->titulo}}|{{$valoracion->pelicula_id}}" style="text-decoration:none; font-size: 25px;" href="#" data-href="valoracion-remove" data-toggle="modal" data-target="#confirm-delete" title="Eliminar"></a>
+                                    <a class="glyphicon glyphicon-trash abre-modal-borrar letra-25 text-deco-none" data-id="{{$pelicula->titulo}}|{{$valoracion->pelicula_id}}" href="#" data-href="valoracion-remove" data-toggle="modal" data-target="#confirm-delete" title="Eliminar"></a>
                                 {{--</a>--}}
                             </td>
                         </tr>
                     @endforeach
                     </tbody>
                 </table>
+                    <div class="col-md-offset-6">
+                        <span class="pagination">  {!! $valoraciones->render() !!} </span>
+                    </div>
             @else
-                <h3 style="text-align: center"> Todav&iacute;a no has hecho ninguna valoraci&oacute;n</h3>
+                <h3 class="text-center"> Todav&iacute;a no has hecho ninguna valoraci&oacute;n</h3>
             @endif
         </div>
     </div>

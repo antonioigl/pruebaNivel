@@ -16,7 +16,8 @@ Route::get('/', function () {
     return view('login');
 });
 
-Route::any('home', 'UsuariosController@loginUsuario');
+Route::any('home', 'UsuariosController@login');
+Route::get('log-out', 'UsuariosController@logout');
 
 Route::get('valoracion-remove/{id}', 'ValoracionesController@remove');
 

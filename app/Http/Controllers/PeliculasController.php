@@ -14,8 +14,9 @@ use pruebaNivel\Pelicula;
 class PeliculasController extends Controller
 {
 
-    static function showAll(){
-        $peliculas = Pelicula::all();
+    public function showAll(){
+
+        $peliculas = Pelicula::orderBy('valoracion_media', 'desc')->paginate(5);
 
         return view('peliculas/showall', compact('peliculas'));
       
