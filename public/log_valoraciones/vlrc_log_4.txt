@@ -1,5 +1,0 @@
-{"fecha":"01-04-2017 14:04:23","tipo":"EXITO","info":"GUARDAR","pelicula_id":"2","usuario_id":"4"}
-{"fecha":"01-04-2017 14:04:50","tipo":"EXITO","info":"ACTUALIZAR","pelicula_id":"33","usuario_id":"4"}
-{"fecha":"01-04-2017 14:04:12","tipo":"EXITO","info":"GUARDAR","pelicula_id":"4","usuario_id":"4"}
-{"fecha":"01-04-2017 14:04:35","tipo":"EXITO","info":"ACTUALIZAR","pelicula_id":"34","usuario_id":"4"}
-{"fecha":"01-04-2017 14:04:51","tipo":"EXITO","info":"ACTUALIZAR","pelicula_id":"33","usuario_id":"4"}

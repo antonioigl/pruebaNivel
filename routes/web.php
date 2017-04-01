@@ -12,23 +12,40 @@
 |
 */
 
-Route::get('/', function () {
-    return view('login');
-});
 
-Route::any('home', 'UsuariosController@login');
-Route::get('log-out', 'UsuariosController@logout');
+//*****************************************************************************************************************************//
+//_____________________________________________________INICIO______________________________________________________________
 
-Route::get('valoracion-remove/{id}', 'ValoracionesController@remove');
+    Route::get('/', function () {
+        return view('login');
+    });
 
-Route::get('peliculas-ver', 'PeliculasController@showAll');
+    Route::any('home', 'UsuariosController@login');
 
-Route::get('valoraciones-ver', 'ValoracionesController@loadValoraciones');
+//*****************************************************************************************************************************//
+//_____________________________________________________VALORACIONES______________________________________________________________
 
-Route::get('valoracion-create/{id}', 'ValoracionesController@create');
+    Route::post('valoracion-store/{id}', 'ValoracionesController@store');
+    Route::patch('valoracion-update/{id}', 'ValoracionesController@update');
+    Route::get('valoracion-remove/{id}', 'ValoracionesController@remove');
 
-Route::get('valoracion-show/{id}', 'ValoracionesController@showEdit');
-Route::get('valoracion-edit/{id}', 'ValoracionesController@showEdit');
+    Route::get('valoracion-create/{id}', 'ValoracionesController@create');
+    Route::get('valoracion-show/{id}', 'ValoracionesController@showEdit');
+    Route::get('valoracion-edit/{id}', 'ValoracionesController@showEdit');
 
-Route::post('valoracion-store/{id}', 'ValoracionesController@store');
-Route::patch('valoracion-update/{id}', 'ValoracionesController@update');
+    Route::get('valoraciones-ver', 'ValoracionesController@loadValoraciones');
+
+
+    //*****************************************************************************************************************************//
+    //_____________________________________________________USUARIOS______________________________________________________________
+
+    Route::get('log-out', 'UsuariosController@logout');
+
+//*****************************************************************************************************************************//
+//_____________________________________________________PELICULAS______________________________________________________________
+
+    Route::get('peliculas-ver', 'PeliculasController@showAll');
+
+
+
+

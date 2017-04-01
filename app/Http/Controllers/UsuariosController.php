@@ -2,11 +2,8 @@
 
 namespace pruebaNivel\Http\Controllers;
 
-//use Illuminate\Contracts\Session\Session;
 use Illuminate\Contracts\View\View;
 use Illuminate\Routing\Controller;
-//use pruebaNivel\Http\Controllers\Controller;
-//use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Input;
 use pruebaNivel\Usuario;
 
@@ -15,17 +12,29 @@ use pruebaNivel\Usuario;
 class UsuariosController extends Controller
 {
 
+    /**
+     * Devuelve todos los usuarios
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     */
     public static function showAll(){
         return  Usuario::all();
 
     }
 
+    /**
+     * Devuelve un usuario
+     * @param $id
+     * @return mixed
+     */
     public static function getUsuario($id){
         return  Usuario::where('id',$id)->first();
 
     }
 
-
+    /**
+     * Inicia sesion
+     * @return View
+     */
     public function login()
     {
         if ( ! session()->has('usuario_id')){
@@ -38,6 +47,11 @@ class UsuariosController extends Controller
         return view('home');
 
     }
+
+    /**
+     * Cierra sesion
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
     public function logout()
     {
         session()->flush();

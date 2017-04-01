@@ -20,8 +20,6 @@ class ValoracionesTabla extends Migration
             $table->integer('usuario_id')->unsigned();
             $table->integer('pelicula_id')->unsigned();
 
-            //$table->integer('usuario_id');
-            //$table->integer('pelicula_id');
             $table->integer('puntuacion');
 
             $table->timestamps();

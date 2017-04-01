@@ -2,12 +2,8 @@
 
 namespace pruebaNivel\Http\Controllers;
 
-//use Illuminate\Contracts\Session\Session;
-//use Faker\Provider\File;
 use Illuminate\Contracts\View\View;
 use Illuminate\Routing\Controller;
-//use pruebaNivel\Http\Controllers\Controller;
-//use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Input;
 use League\Flysystem\Exception;
 use pruebaNivel\Pelicula;
@@ -19,6 +15,11 @@ use File;
 class ValoracionesController extends Controller
 {
 
+    /**
+     * Crea vista guarda valoracion
+     * @param $id
+     * @return View
+     */
     public function create ($id){
 
         $pelicula = PeliculasController::getPelicula($id);
@@ -27,8 +28,12 @@ class ValoracionesController extends Controller
 
     }
 
+    /**
+     * Crea vista ver y editar
+     * @param $id
+     * @return View
+     */
     public function showEdit($id){
-
 
         $usuarios_id = session('usuario_id');
         $valoracion = $this::getValoracionPeliculaUsuario($id, $usuarios_id);
@@ -38,6 +43,11 @@ class ValoracionesController extends Controller
         return view('valoraciones/create', compact('pelicula', 'valoracion'));
     }
 
+    /**
+     * Borra valoracion
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function remove($id){
 
         DB::beginTransaction();
@@ -85,6 +95,11 @@ class ValoracionesController extends Controller
 
     }
 
+
+    /**
+     * Devuelte valoraciones de un usuario
+     * @return View
+     */
     public function loadValoraciones(){
 
         $usuario_id = session('usuario_id');
@@ -94,15 +109,30 @@ class ValoracionesController extends Controller
         return view('valoraciones/showall', compact('valoraciones'));
     }
 
+    /**
+     * Devuelve la valoracion realizada por el usuario de una determinada pelicula
+     * @param $pelicula_id
+     * @param $usuario_id
+     * @return mixed
+     */
     public static function getValoracionPeliculaUsuario($pelicula_id, $usuario_id){
         return Valoracion::where('usuario_id', $usuario_id)->where('pelicula_id', $pelicula_id)->first();
     }
 
+    /**
+     * Devuelve una valoracion
+     * @param $id
+     * @return mixed
+     */
     public function getValoracion($id){
         return Valoracion::where('id', $id)->first();
     }
 
-
+    /***
+     * Guarda una valoracion
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
 
     public function store ($id){
 
@@ -158,7 +188,7 @@ class ValoracionesController extends Controller
                 $info = 'GUARDAR';
             }
 
-
+            //escribe en el log
             $this->anyadeLog(['fecha' => date('d-m-Y H:m:s'), 'tipo' => $tipo, 'info' => $info, 'pelicula_id' => $id, 'usuario_id' => $usuario_id]);
         }
 
@@ -166,6 +196,10 @@ class ValoracionesController extends Controller
 
     }
 
+    /**Actualiza valoracion
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function update($id){
 
         $data = Input::all();
@@ -195,11 +229,12 @@ class ValoracionesController extends Controller
 
                 $valoracion_media_act = ((($valoracion_media * $num_valoraciones) - $puntuacion) + floatval($data['puntuacion'])) / $num_valoraciones;
 
+                //Actualiza en tabla pelicula
                 $pelicula_update = Pelicula::find($pelicula_id);
                 $pelicula_update['valoracion_media'] = $valoracion_media_act;
                 $pelicula_update->save();
 
-
+                //Actualiza en tabla valoraciones
                 $valoracion_update = Valoracion::find($id);
                 $valoracion_update['puntuacion'] = $data['puntuacion'];
                 $valoracion_update->save();
@@ -219,14 +254,17 @@ class ValoracionesController extends Controller
                 $info = 'ACTUALIZAR';
             }
 
+            //escribe en el log
             $this->anyadeLog(['fecha' => date('d-m-Y H:m:s'), 'tipo' => $tipo, 'info' => $info, 'pelicula_id' => $id, 'usuario_id' => $usuario_id]);
         }
-
 
         return redirect('valoraciones-ver')->with(compact('mensaje','flag' ));
 
     }
 
+    /**Crea un fichero log
+     * @param $data
+     */
     public function anyadeLog ($data){
 
         $usuario_id = session('usuario_id');
@@ -236,9 +274,6 @@ class ValoracionesController extends Controller
         if (!File::exists('log_valoraciones'))
             File::makeDirectory('log_valoraciones', 777, true);
 
-        //$contenido = File::exists($archivo) ? json_encode(File::get($archivo), true) : [];
-
-
        if (File::exists($archivo)){
            $contenido = File::get($archivo);
            File::put($archivo, $contenido."\r\n" .json_encode($data));
@@ -246,12 +281,7 @@ class ValoracionesController extends Controller
        }
 
        else{
-           //$contenido = [];
-           //
-           //$contenido[] = $data;
-
            File::put($archivo, json_encode($data));
-
        }
 
     }
